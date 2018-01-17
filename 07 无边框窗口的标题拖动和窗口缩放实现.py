@@ -2,8 +2,9 @@
 #-*- coding:utf-8 -*-
 
 from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtCore import Qt, QPoint, QRect
 from PyQt5.QtGui import QFont, QCursor
+from PyQt5.QtGui import QPainter,  QPixmap
 
 class QTitleLabel(QLabel):
     """
@@ -30,6 +31,9 @@ class QUnFrameWindow(QWidget):
     def __init__(self):
         super(QUnFrameWindow, self).__init__(None, Qt.FramelessWindowHint) # 设置为顶级窗口，无边框
         self._padding = 5 # 设置边界宽度为5
+        self.SHADOW_WIDTH = 8
+        self.setWindowFlags(Qt.FramelessWindowHint) #无边框
+        self.setAttribute(Qt.WA_TranslucentBackground,True) #背景透明
         self.initTitleLabel() # 安放标题栏标签
         self.setWindowTitle = self._setTitleText(self.setWindowTitle) # 用装饰器将设置WindowTitle名字函数共享到标题栏标签上
         self.setWindowTitle("UnFrameWindow")
@@ -37,6 +41,35 @@ class QUnFrameWindow(QWidget):
         self.setMinimumWidth(250)
         self.setMouseTracking(True) # 设置widget鼠标跟踪
         self.initDrag() # 设置鼠标跟踪判断默认值
+
+    def drawShadow(self,painter):
+        #绘制左上角、左下角、右上角、右下角、上、下、左、右边框
+        self.pixmaps=list()
+        self.pixmaps.append(str("./res/left_top.png"))
+        self.pixmaps.append(str("./res/left_bottom.png"))
+        self.pixmaps.append(str("./res/right_top.png"))
+        self.pixmaps.append(str("./res/right_bottom.png"))
+        self.pixmaps.append(str("./res/top_mid.png"))
+        self.pixmaps.append(str("./res/bottom_mid.png"))
+        self.pixmaps.append(str("./res/left_mid.png"))
+        self.pixmaps.append(str("./res/right_mid.png"))
+
+        painter.drawPixmap(0, 0, self.SHADOW_WIDTH, self.SHADOW_WIDTH, QPixmap(self.pixmaps[0]))   #左上角
+        painter.drawPixmap(self.width() - self.SHADOW_WIDTH, 0, self.SHADOW_WIDTH, self.SHADOW_WIDTH, QPixmap(self.pixmaps[2]))   #右上角
+        painter.drawPixmap(0,self.height()-self.SHADOW_WIDTH, self.SHADOW_WIDTH, self.SHADOW_WIDTH, QPixmap(self.pixmaps[1]))   #左下角
+        painter.drawPixmap(self.width()-self.SHADOW_WIDTH, self.height()-self.SHADOW_WIDTH, self.SHADOW_WIDTH, self.SHADOW_WIDTH, QPixmap(self.pixmaps[3]))  #右下角
+        painter.drawPixmap(0, self.SHADOW_WIDTH, self.SHADOW_WIDTH, self.height()-2*self.SHADOW_WIDTH, QPixmap(self.pixmaps[6]).scaled(self.SHADOW_WIDTH, self.height()-2*self.SHADOW_WIDTH)) #左
+        painter.drawPixmap(self.width()-self.SHADOW_WIDTH, self.SHADOW_WIDTH, self.SHADOW_WIDTH, self.height()-2*self.SHADOW_WIDTH, QPixmap(self.pixmaps[7]).scaled(self.SHADOW_WIDTH, self.height()- 2*self.SHADOW_WIDTH)) #右
+        painter.drawPixmap(self.SHADOW_WIDTH, 0, self.width()-2*self.SHADOW_WIDTH, self.SHADOW_WIDTH, QPixmap(self.pixmaps[4]).scaled(self.width()-2*self.SHADOW_WIDTH, self.SHADOW_WIDTH)) #上
+        painter.drawPixmap(self.SHADOW_WIDTH, self.height()-self.SHADOW_WIDTH, self.width()-2*self.SHADOW_WIDTH, self.SHADOW_WIDTH, QPixmap(self.pixmaps[5]).scaled(self.width()-2*self.SHADOW_WIDTH, self.SHADOW_WIDTH))   #下
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        self.drawShadow(painter)
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(Qt.white)
+        painter.drawRect(QRect(self.SHADOW_WIDTH, self.SHADOW_WIDTH, self.width()-2*self.SHADOW_WIDTH, self.height()-2*self.SHADOW_WIDTH))
+
 
     def initDrag(self):
         # 设置鼠标跟踪判断扳机默认值

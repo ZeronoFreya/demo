@@ -1,0 +1,64 @@
+#coding:utf-8
+'''
+Created on 2015��8��1��
+
+@author: guowu
+'''
+from PyQt4.QtGui import QWidget, QApplication, QPainterPath, QPainter, QBrush,\
+    QColor, QPen
+from PyQt4.QtCore import Qt, QSize, QRect, QPoint
+import sys
+import math
+class TestFrame(QWidget):
+    def __init__(self,parent=None):
+        super(TestFrame,self).__init__(parent)
+        self.setWindowFlags(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground,True)
+        self.setFixedSize(QSize(500,500))
+        self.currentPos = None
+    
+    def mousePressEvent(self,event):
+        self.currentPos = event.pos()
+    
+    def mouseMoveEvent(self,event):
+        self.move(QPoint(self.pos()+event.pos()-self.currentPos))
+        
+    def paintEvent(self,event):
+        m = 9
+        
+        path = QPainterPath()
+        path.setFillRule(Qt.WindingFill)
+        path.addRect(m, m, self.width()-m*2, self.height()-m*2)
+        
+        painter = QPainter(self)
+        #painter.drawLine(QLineF)
+        #painter.setRenderHint(QPainter.Antialiasing, True)
+        painter.fillPath(path, QBrush(Qt.white))
+     
+        color = QColor(100, 100, 100, 30)
+        #for(int i=0; i<10; i++)
+        
+        for i in range(m):
+            path = QPainterPath()
+            path.setFillRule(Qt.WindingFill)
+            path.addRoundRect(m-i, m-i, self.width()-(m-i)*2, self.height()-(m-i)*2,1,1)
+            color.setAlpha(90 - math.sqrt(i)*30)
+            painter.setPen(QPen(color,1,Qt.SolidLine))
+            painter.drawRoundRect(QRect(m-i, m-i, self.width()-(m-i)*2, self.height()-(m-i)*2), 0,0)
+           
+#             path = QPainterPath()
+#             path.setFillRule(Qt.WindingFill)
+#             path.addRect(m-i, m-i, self.width()-(m-i)*2, self.height()-(m-i)*2)
+#             color.setAlpha(90 - math.sqrt(i)*30)
+#             painter.setPen(QPen(color,1))
+#             painter.drawPath(path)
+         
+    
+    
+    
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    c = TestFrame()
+    c.show()
+    app.exec_()
