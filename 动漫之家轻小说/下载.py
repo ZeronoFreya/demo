@@ -3,12 +3,17 @@
 
 import urllib.request, os
 
-dicts = [{
-    'url'       : 'http://xs.dmzj.com/2339/8747/8747_GBK.txt',
-    'title'     : '精灵所爱的异世界不良少年',
-    'number'    : '01',
-    'subtitle'    : ''
-}]
+dicts = [
+    {
+        "url": "http://xs.dmzj.com/1671/6239/6239_GBK.txt",
+        "title": "为美好的世界献上祝福！(给予这个绝美的世界以祝福！)",
+        "subtitle": "第二卷 中二病也想当魔女"
+    },{
+        "url": "http://xs.dmzj.com/1671/6147/6147_GBK.txt",
+        "title": "为美好的世界献上祝福！(给予这个绝美的世界以祝福！)",
+        "subtitle": "第一卷 啊啊，没用的女神大人"
+    }
+]
 saveTo = 'd:/a/'
 for f in dicts:
     data = urllib.request.urlopen(f['url']).read()
