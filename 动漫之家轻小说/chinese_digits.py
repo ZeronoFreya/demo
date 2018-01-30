@@ -9,13 +9,16 @@ def chineseToDigits(chinese_str, fill_in, placeholder=0):
     t = t.replace("百十", "百一十")
     common_used_numerals = {'零': 0, '一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9,
                             '十': 10, '百': 100, '千': 1000, '万': 10000, '亿': 100000000}
+    t2 = ''
+    keys = common_used_numerals.keys()
+    for i in range(len(t) - 1):
+        if t[i] in keys:
+            t2 = ''.join((t2, t[i]))
+    t = t2
     total = 0
     r = 1
     for i in range(len(t) - 1, -1, -1):
         val = common_used_numerals.get(t[i])
-        if val is None:
-            # raise Exception("%s can not be accepted." % t[i])
-            continue
         if val >= 10 and i == 0:
             if val > r:
                 r = val
