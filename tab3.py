@@ -47,6 +47,7 @@ class MainWindow(QMainWindow):
 		vlayout = QVBoxLayout()
 		vlayout.addLayout(hlayout)
 		vlayout.addWidget(self.tabwidget)
+		vlayout.addWidget(self.tabwidget)
 
 		MainWindow.setCentralWidget(self.centralwidget)
 		gridlayout.addLayout(vlayout,0,0,1,1)
