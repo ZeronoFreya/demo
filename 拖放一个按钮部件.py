@@ -4,9 +4,9 @@
 """
 ZetCode PyQt5 tutorial
 
-In this program, we can press on a button with 
-a left mouse click or drag and drop the button 
-with the right mouse click. 
+In this program, we can press on a button with
+a left mouse click or drag and drop the button
+with the right mouse click.
 
 author: Jan Bodnar
 website: zetcode.com
@@ -20,10 +20,10 @@ from PyQt5.QtGui import QDrag
 
 
 class Button(QPushButton):
-  
+
     def __init__(self, title, parent):
         super().__init__(title, parent)
-        
+
 
     def mouseMoveEvent(self, e):
 
@@ -40,21 +40,21 @@ class Button(QPushButton):
 
 
     def mousePressEvent(self, e):
-      
+
         QPushButton.mousePressEvent(self, e)
-        
+
         if e.button() == Qt.LeftButton:
             print('press')
 
 
 class Example(QWidget):
-  
+
     def __init__(self):
         super().__init__()
 
         self.initUI()
-        
-        
+
+
     def initUI(self):
 
         self.setAcceptDrops(True)
@@ -64,12 +64,12 @@ class Example(QWidget):
 
         self.setWindowTitle('Click or Move')
         self.setGeometry(300, 300, 280, 150)
-        
+
 
     def dragEnterEvent(self, e):
-      
+
         e.accept()
-        
+
 
     def dropEvent(self, e):
 
@@ -78,11 +78,11 @@ class Example(QWidget):
 
         e.setDropAction(Qt.MoveAction)
         e.accept()
-        
+
 
 if __name__ == '__main__':
-  
+
     app = QApplication(sys.argv)
     ex = Example()
     ex.show()
-    app.exec_()  
+    app.exec_()
