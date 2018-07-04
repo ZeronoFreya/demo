@@ -18,7 +18,7 @@ class MyWindow(QtWidgets.QPushButton):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    splash = QtWidgets.QSplashScreen(QtGui.QPixmap("slm.jpg"))
+    splash = QtWidgets.QSplashScreen(QtGui.QPixmap("slm.png"))
     splash.showMessage("加载... 0%", QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom, QtCore.Qt.black)
     splash.show()                           # 显示启动界面
     QtWidgets.qApp.processEvents()          # 处理主进程事件

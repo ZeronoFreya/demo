@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QTabBar, QWidget, QApplication, QPushButton, QTabWid
 
 class TabBar(QTabBar):
     def tabSizeHint(self, index):
+        print(index)
         size = QTabBar.tabSizeHint(self, index)
         w = int(self.width()/self.count())
         return QSize(w, size.height())
@@ -58,6 +59,7 @@ class CustomWidget (QWidget):
         self.tabs.removeTab(index)
 
     def buttonClicked(self):
+        print('-------')
         self.tabs.addTab(Container("smalltext2"), "smalltext2")
 
 
